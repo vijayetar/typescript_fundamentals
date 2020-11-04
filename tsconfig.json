@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES5",
-    "outDir": "dist"
+    "target": "ES5", //ECMOScript changed target version will affect the javascript that generates
   }
+
 }

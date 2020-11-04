@@ -120,8 +120,96 @@ interface ITodoService {
  - Here is the static property in JS
  ![TS javascript class property](assets/TS_JSreflectionOfStaticProperty.png)  
 
-9. Use of access modifiers also help clean up the JS code more without using dunders, but since TS only extends JS, JS code, despite warnings, will still function with wrong access modifiers.  
+9. Use of access modifiers also help clean up the JS code more without using dunders, but since TS only extends JS, JS code, despite warnings, will still function with wrong access modifiers.  So continue using dunder before private properties and methods.
 ![Access Modifiers](assets/TS_accessModifiers.png)  
 10. Generics in Typescript  
-![Generics](assets/TS_generics.png)  
+![Generics](assets/TS_generics.png)
+![Generics in Hashmaps](assets/TS_genericsHashMap.png)  
+11. Abstract classes in TS allows us to set up base classes with intention to never instantiate these classes:
+```
+abstract class TodoStateChanger {
+    
+    constructor(private newState: TodoState) {
+    }
+    
+    abstract canChangeState(todo: Todo): boolean;
+    
+    changeState(todo: Todo): Todo {
+        if(this.canChangeState(todo)) {
+            todo.state = this.newState;
+        }
+        
+        return todo;
+    }
+    
+}
+```
+12. IFE to call function immediately as soon it is written
+
+```
+var jQuery = {
+    version: 1.19,
+    fn: {}
+};
+
+(function defineType($) {
+    
+    if( $.version < 1.15 )
+        throw 'Plugin requires jQuery version 1.15+'
+        
+    $.fn.myPlugin = function() {
+        // my plugin code
+    }
+    
+    
+})(jQuery)
+```
+13. Internal Modules help set up private and protected methods and variables in a much cleaner way.  This is still done but not as popular as exter modules.  
+
+![namesspace](assets/TS_namespace.png)  
+
+14a. To use external Modules first change the tsconfig.json file to add this :
+```
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "system"
+    }
+}
+```
+then import the required classes and functions in the necessary files:
+```
+import Model = require('./model');
+import Todo = Model.Todo;
+```
+OR
+```
+import { Todo as TodoTask, TodoState } from './model';
+import './jQuery'
+
+let todo: TodoTask;
+```
+14b. System.js
+In your index html replace the current script tags with the system.js package
+```
+    <script type="text/javascript" src="model.js"></script>
+    <script type="text/javascript" src="TodoService.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+```
+with
+```
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/systemjs/0.19.22/system.js"></script>
+    <script type="text/javascript">
+        System.defaultJSExtensions = true;
+        System.import('app')
+    </script>
+```
+and in the corresponding js file where we need to import module:
+```
+import Model = require('./model');
+import Todo = Model.Todo;
+```
+
+
+
 
