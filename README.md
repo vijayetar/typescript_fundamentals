@@ -37,7 +37,7 @@ code .
 ## TypeScript syntax
 
 1. let and var are similar
-2. see how types are defined in the input and output for each line of code. the more explicit you are, the better it is. Examples of primitive types are:
+2a. see how types are defined in the input and output for each line of code. the more explicit you are, the better it is. Examples of primitive types are:
 ```
 number
 string
@@ -48,13 +48,63 @@ BigInt
 Undefined
 Symbol
 ```  
+2b. You can use default parameters for overloading the constructor or functions:  
+```
+def countdown(initial, final=0, interval=1){
+  // do countdown
+}
+```
+2c. Template literals:
+```
+var displayStringLiteral: string = `here is the number ${todo.id} and call ${todo.name}, then complete the task ${todo.completed}`;
+```
+
+2d. Other syntax examples:
 
 ![Syntax Example](assets/Typescript_syntax.png)  
+
+2e. Spread Operator ![Multiple Arguments](assets/TS_arrows_ES6.png)  
 3. __TypeInference__: allows Typescript to predict the output of a function and then create object with appropriate methods when assigned to the return value of the function.   
+3a. __UnionTypes__: Here is example of union types using pipes
+```
+function totalLength(x: (string | any[]), y: (string | any[])): number {
+    var total: number = x.length + y.length;
+    
+    x.slice(0)
+    
+    if(x instanceof Array) { // allows typeguard, and only for Objects
+        x.push('TypeScript')
+    } 
+    
+    if((parameter) x:string) { // this typeguard only works for primitive types
+        x.substr(0)
+    }
+    
+    return total;
+}
+```
+
 4. __GradualTyping__: allows us to change the type using the type __any__ but it should be used sparingly.  
 5. __Interfaces__: allow you to define the object better, and is compiled early  
 ![Example of Interface Syntax](assets/Typescript_interface.png)  
 * They also allow __duck typing__ so that even if the object is not defined again as the interface variable, as long as the obeject has the same properties as the interface object, typescript will equate the two... 
+* Optional properties using "?":
+```
+interface Todo {
+  name:string;
+  completed?:boolean
+}
+```
+* properties in interface:
+```
+interface ITodoService {
+    add(todo: Todo): Todo;
+    delete(todo: Todo): void;
+    getAll(): Todo[];
+    getById(todoId: number): Todo;
+}
+```
+
 * Make properties and methods option, and use ES6
 ![Interface Optionals](assets/TS_interface_arrowFunction.png)  
 6. __enums__: powerful to restrict to two options and refer them later in both ts and js files
